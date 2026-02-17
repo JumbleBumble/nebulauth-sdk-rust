@@ -1,0 +1,26 @@
+[package]
+name = "nebulauth-sdk"
+version = "0.1.0"
+edition = "2021"
+authors = ["NebulAuth"]
+description = "Rust SDK crate for NebulAuth runtime API"
+license = "MIT"
+readme = "README.md"
+repository = "https://api.nebulauth.com"
+keywords = ["nebulauth", "sdk", "api", "auth"]
+categories = ["api-bindings"]
+
+[dependencies]
+base64 = "0.22"
+hmac = "0.12"
+rand = "0.8"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+thiserror = "2"
+url = "2"
+
+[dev-dependencies]
+mockito = "1.6"
+tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
