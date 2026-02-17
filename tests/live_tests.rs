@@ -1,4 +1,6 @@
-use nebulauth_sdk::{NebulAuthClient, NebulAuthClientOptions, ReplayProtectionMode, VerifyKeyInput};
+use nebulauth_sdk::{
+    NebulAuthClient, NebulAuthClientOptions, ReplayProtectionMode, VerifyKeyInput,
+};
 
 const DEFAULT_BASE_URL: &str = "https://api.nebulauth.com/api/v1";
 
