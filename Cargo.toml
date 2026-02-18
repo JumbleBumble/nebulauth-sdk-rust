@@ -6,7 +6,7 @@ authors = ["NebulAuth"]
 description = "Rust SDK crate for NebulAuth runtime API"
 license = "MIT"
 readme = "README.md"
-repository = "https://api.nebulauth.com"
+repository = "https://github.com/JumbleBumble/nebulauth-sdk-rust"
 keywords = ["nebulauth", "sdk", "api", "auth"]
 categories = ["api-bindings"]
 
