@@ -235,151 +235,401 @@ impl NebulAuthDashboardClient {
         })
     }
 
-    pub async fn login(&self, payload: LoginRequest, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("POST", "/auth/login", Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn login(
+        &self,
+        payload: LoginRequest,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "POST",
+            "/auth/login",
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn logout(&self, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("POST", "/auth/logout", Some(json!({})), options).await
+    pub async fn logout(
+        &self,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request("POST", "/auth/logout", Some(json!({})), options)
+            .await
     }
 
-    pub async fn me(&self, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
+    pub async fn me(
+        &self,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
         self.request("GET", "/me", None, options).await
     }
 
-    pub async fn get_customer(&self, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
+    pub async fn get_customer(
+        &self,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
         self.request("GET", "/customer", None, options).await
     }
 
-    pub async fn update_customer(&self, payload: CustomerUpdateRequest, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("PATCH", "/customer", Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn update_customer(
+        &self,
+        payload: CustomerUpdateRequest,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "PATCH",
+            "/customer",
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn create_user(&self, payload: TeamMemberCreateRequest, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("POST", "/users", Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn create_user(
+        &self,
+        payload: TeamMemberCreateRequest,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "POST",
+            "/users",
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn list_users(&self, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
+    pub async fn list_users(
+        &self,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
         self.request("GET", "/users", None, options).await
     }
 
-    pub async fn update_user(&self, id: &str, payload: TeamMemberUpdateRequest, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("PATCH", &format!("/users/{id}"), Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn update_user(
+        &self,
+        id: &str,
+        payload: TeamMemberUpdateRequest,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "PATCH",
+            &format!("/users/{id}"),
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn delete_user(&self, id: &str, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("DELETE", &format!("/users/{id}"), None, options).await
+    pub async fn delete_user(
+        &self,
+        id: &str,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request("DELETE", &format!("/users/{id}"), None, options)
+            .await
     }
 
-    pub async fn create_key(&self, payload: KeyCreateRequest, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("POST", "/keys", Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn create_key(
+        &self,
+        payload: KeyCreateRequest,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "POST",
+            "/keys",
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn bulk_create_keys(&self, payload: KeyBatchCreateRequest, format: &str, mut options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        options.query.insert("format".to_string(), format.to_string());
-        self.request("POST", "/keys/batch", Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn bulk_create_keys(
+        &self,
+        payload: KeyBatchCreateRequest,
+        format: &str,
+        mut options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        options
+            .query
+            .insert("format".to_string(), format.to_string());
+        self.request(
+            "POST",
+            "/keys/batch",
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn extend_key_durations(&self, hours: i64, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("POST", "/keys/extend-duration", Some(json!({ "hours": hours })), options).await
+    pub async fn extend_key_durations(
+        &self,
+        hours: i64,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "POST",
+            "/keys/extend-duration",
+            Some(json!({ "hours": hours })),
+            options,
+        )
+        .await
     }
 
-    pub async fn get_key(&self, id: &str, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("GET", &format!("/keys/{id}"), None, options).await
+    pub async fn get_key(
+        &self,
+        id: &str,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request("GET", &format!("/keys/{id}"), None, options)
+            .await
     }
 
-    pub async fn list_keys(&self, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
+    pub async fn list_keys(
+        &self,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
         self.request("GET", "/keys", None, options).await
     }
 
-    pub async fn update_key(&self, id: &str, payload: KeyUpdateRequest, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("PATCH", &format!("/keys/{id}"), Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn update_key(
+        &self,
+        id: &str,
+        payload: KeyUpdateRequest,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "PATCH",
+            &format!("/keys/{id}"),
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn reset_key_hwid(&self, id: &str, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("POST", &format!("/keys/{id}/reset-hwid"), Some(json!({})), options).await
+    pub async fn reset_key_hwid(
+        &self,
+        id: &str,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "POST",
+            &format!("/keys/{id}/reset-hwid"),
+            Some(json!({})),
+            options,
+        )
+        .await
     }
 
-    pub async fn delete_key(&self, id: &str, payload: KeyRevokeRequest, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("DELETE", &format!("/keys/{id}"), Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn delete_key(
+        &self,
+        id: &str,
+        payload: KeyRevokeRequest,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "DELETE",
+            &format!("/keys/{id}"),
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn list_key_sessions(&self, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
+    pub async fn list_key_sessions(
+        &self,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
         self.request("GET", "/key-sessions", None, options).await
     }
 
-    pub async fn revoke_key_session(&self, id: &str, payload: RevokeSessionRequest, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("DELETE", &format!("/key-sessions/{id}"), Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn revoke_key_session(
+        &self,
+        id: &str,
+        payload: RevokeSessionRequest,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "DELETE",
+            &format!("/key-sessions/{id}"),
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn revoke_all_key_sessions(&self, payload: RevokeAllSessionsRequest, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("POST", "/key-sessions/revoke-all", Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn revoke_all_key_sessions(
+        &self,
+        payload: RevokeAllSessionsRequest,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "POST",
+            "/key-sessions/revoke-all",
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn list_checkpoints(&self, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
+    pub async fn list_checkpoints(
+        &self,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
         self.request("GET", "/checkpoints", None, options).await
     }
 
-    pub async fn get_checkpoint(&self, id: &str, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("GET", &format!("/checkpoints/{id}"), None, options).await
+    pub async fn get_checkpoint(
+        &self,
+        id: &str,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request("GET", &format!("/checkpoints/{id}"), None, options)
+            .await
     }
 
-    pub async fn create_checkpoint(&self, payload: CheckpointCreateRequest, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("POST", "/checkpoints", Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn create_checkpoint(
+        &self,
+        payload: CheckpointCreateRequest,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "POST",
+            "/checkpoints",
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn update_checkpoint(&self, id: &str, payload: CheckpointUpdateRequest, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("PATCH", &format!("/checkpoints/{id}"), Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn update_checkpoint(
+        &self,
+        id: &str,
+        payload: CheckpointUpdateRequest,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "PATCH",
+            &format!("/checkpoints/{id}"),
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn delete_checkpoint(&self, id: &str, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("DELETE", &format!("/checkpoints/{id}"), None, options).await
+    pub async fn delete_checkpoint(
+        &self,
+        id: &str,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request("DELETE", &format!("/checkpoints/{id}"), None, options)
+            .await
     }
 
-    pub async fn list_blacklist(&self, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
+    pub async fn list_blacklist(
+        &self,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
         self.request("GET", "/blacklist", None, options).await
     }
 
-    pub async fn create_blacklist_entry(&self, payload: BlacklistCreateRequest, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("POST", "/blacklist", Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn create_blacklist_entry(
+        &self,
+        payload: BlacklistCreateRequest,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "POST",
+            "/blacklist",
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn delete_blacklist_entry(&self, id: &str, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("DELETE", &format!("/blacklist/{id}"), None, options).await
+    pub async fn delete_blacklist_entry(
+        &self,
+        id: &str,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request("DELETE", &format!("/blacklist/{id}"), None, options)
+            .await
     }
 
-    pub async fn create_api_token(&self, payload: ApiTokenCreateRequest, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("POST", "/api-tokens", Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn create_api_token(
+        &self,
+        payload: ApiTokenCreateRequest,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "POST",
+            "/api-tokens",
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn update_api_token(&self, id: &str, payload: ApiTokenUpdateRequest, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("PATCH", &format!("/api-tokens/{id}"), Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?), options).await
+    pub async fn update_api_token(
+        &self,
+        id: &str,
+        payload: ApiTokenUpdateRequest,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request(
+            "PATCH",
+            &format!("/api-tokens/{id}"),
+            Some(serde_json::to_value(payload).map_err(|e| NebulAuthError::Config(e.to_string()))?),
+            options,
+        )
+        .await
     }
 
-    pub async fn list_api_tokens(&self, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
+    pub async fn list_api_tokens(
+        &self,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
         self.request("GET", "/api-tokens", None, options).await
     }
 
-    pub async fn delete_api_token(&self, id: &str, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("DELETE", &format!("/api-tokens/{id}"), None, options).await
+    pub async fn delete_api_token(
+        &self,
+        id: &str,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request("DELETE", &format!("/api-tokens/{id}"), None, options)
+            .await
     }
 
-    pub async fn analytics_summary(&self, days: Option<i64>, mut options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
+    pub async fn analytics_summary(
+        &self,
+        days: Option<i64>,
+        mut options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
         if let Some(d) = days {
             options.query.insert("days".to_string(), d.to_string());
         }
-        self.request("GET", "/analytics/summary", None, options).await
+        self.request("GET", "/analytics/summary", None, options)
+            .await
     }
 
-    pub async fn analytics_geo(&self, days: Option<i64>, mut options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
+    pub async fn analytics_geo(
+        &self,
+        days: Option<i64>,
+        mut options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
         if let Some(d) = days {
             options.query.insert("days".to_string(), d.to_string());
         }
         self.request("GET", "/analytics/geo", None, options).await
     }
 
-    pub async fn analytics_activity(&self, options: DashboardRequestOptions) -> Result<DashboardResponse, NebulAuthError> {
-        self.request("GET", "/analytics/activity", None, options).await
+    pub async fn analytics_activity(
+        &self,
+        options: DashboardRequestOptions,
+    ) -> Result<DashboardResponse, NebulAuthError> {
+        self.request("GET", "/analytics/activity", None, options)
+            .await
     }
 
     pub async fn request(
@@ -404,8 +654,9 @@ impl NebulAuthDashboardClient {
         for (key, value) in options.extra_headers {
             let header_name = HeaderName::from_bytes(key.as_bytes())
                 .map_err(|e| NebulAuthError::Config(format!("invalid header name '{key}': {e}")))?;
-            let header_value = HeaderValue::from_str(&value)
-                .map_err(|e| NebulAuthError::Config(format!("invalid header value for '{key}': {e}")))?;
+            let header_value = HeaderValue::from_str(&value).map_err(|e| {
+                NebulAuthError::Config(format!("invalid header value for '{key}': {e}"))
+            })?;
             headers.insert(header_name, header_value);
         }
 
@@ -416,16 +667,18 @@ impl NebulAuthDashboardClient {
                     let value = format!("mc_session={session_cookie}");
                     headers.insert(
                         HeaderName::from_static("cookie"),
-                        HeaderValue::from_str(&value)
-                            .map_err(|e| NebulAuthError::Config(format!("invalid cookie header: {e}")))?,
+                        HeaderValue::from_str(&value).map_err(|e| {
+                            NebulAuthError::Config(format!("invalid cookie header: {e}"))
+                        })?,
                     );
                 }
                 DashboardAuth::Bearer { bearer_token } => {
                     let value = format!("Bearer {bearer_token}");
                     headers.insert(
                         HeaderName::from_static("authorization"),
-                        HeaderValue::from_str(&value)
-                            .map_err(|e| NebulAuthError::Config(format!("invalid authorization header: {e}")))?,
+                        HeaderValue::from_str(&value).map_err(|e| {
+                            NebulAuthError::Config(format!("invalid authorization header: {e}"))
+                        })?,
                     );
                 }
             }
@@ -446,9 +699,10 @@ impl NebulAuthDashboardClient {
 
         let mut request = self.client.request(request_method, url).headers(headers);
         if let Some(payload) = body {
-            request = request
-                .header(CONTENT_TYPE, "application/json")
-                .body(serde_json::to_string(&payload).map_err(|e| NebulAuthError::Config(e.to_string()))?);
+            request = request.header(CONTENT_TYPE, "application/json").body(
+                serde_json::to_string(&payload)
+                    .map_err(|e| NebulAuthError::Config(e.to_string()))?,
+            );
         }
 
         let response = request.send().await?;
@@ -456,7 +710,10 @@ impl NebulAuthDashboardClient {
 
         let mut response_headers = HashMap::new();
         for (key, value) in response.headers() {
-            response_headers.insert(key.to_string(), value.to_str().unwrap_or_default().to_string());
+            response_headers.insert(
+                key.to_string(),
+                value.to_str().unwrap_or_default().to_string(),
+            );
         }
 
         let text = response.text().await?;
