@@ -31,21 +31,11 @@ impl Default for NebulAuthDashboardClientOptions {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 pub struct DashboardRequestOptions {
     pub auth: Option<DashboardAuth>,
     pub query: HashMap<String, String>,
     pub extra_headers: HashMap<String, String>,
-}
-
-impl Default for DashboardRequestOptions {
-    fn default() -> Self {
-        Self {
-            auth: None,
-            query: HashMap::new(),
-            extra_headers: HashMap::new(),
-        }
-    }
 }
 
 #[derive(Debug, Clone)]
@@ -720,7 +710,7 @@ impl NebulAuthDashboardClient {
         let data = if text.trim().is_empty() {
             json!({})
         } else {
-            serde_json::from_str::<Value>(&text).unwrap_or_else(|_| Value::String(text))
+            serde_json::from_str::<Value>(&text).unwrap_or(Value::String(text))
         };
 
         Ok(DashboardResponse {
