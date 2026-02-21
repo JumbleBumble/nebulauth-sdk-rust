@@ -1,8 +1,11 @@
 use nebulauth_sdk::{
-    NebulAuthClient, NebulAuthClientOptions, ReplayProtectionMode, VerifyKeyInput,
+    DashboardAuth, DashboardRequestOptions, NebulAuthClient, NebulAuthClientOptions,
+    NebulAuthDashboardClient, NebulAuthDashboardClientOptions, ReplayProtectionMode,
+    VerifyKeyInput,
 };
 
 const DEFAULT_BASE_URL: &str = "https://api.nebulauth.com/api/v1";
+const DEFAULT_DASHBOARD_BASE_URL: &str = "https://api.nebulauth.com/dashboard";
 
 #[tokio::test]
 async fn verify_key_live_env_gated() {
@@ -66,4 +69,39 @@ async fn verify_key_live_env_gated() {
 
     assert!(response.data.is_object());
     assert!(response.data.get("valid").is_some());
+}
+
+#[tokio::test]
+async fn dashboard_me_live_env_gated() {
+    if std::env::var("NEBULAUTH_LIVE_TEST").ok().as_deref() != Some("1") {
+        eprintln!("Skipping live test: set NEBULAUTH_LIVE_TEST=1 to enable");
+        return;
+    }
+
+    let base_url = std::env::var("NEBULAUTH_DASHBOARD_BASE_URL")
+        .ok()
+        .filter(|v| !v.trim().is_empty())
+        .unwrap_or_else(|| DEFAULT_DASHBOARD_BASE_URL.to_string());
+
+    let bearer_token = match std::env::var("NEBULAUTH_DASHBOARD_BEARER_TOKEN") {
+        Ok(v) if !v.trim().is_empty() => v,
+        _ => {
+            eprintln!("Skipping dashboard live test: missing NEBULAUTH_DASHBOARD_BEARER_TOKEN");
+            return;
+        }
+    };
+
+    let client = NebulAuthDashboardClient::new(NebulAuthDashboardClientOptions {
+        base_url,
+        auth: Some(DashboardAuth::Bearer { bearer_token }),
+        ..Default::default()
+    })
+    .expect("dashboard client init should succeed");
+
+    let response = client
+        .me(DashboardRequestOptions::default())
+        .await
+        .expect("dashboard live request should complete");
+
+    assert!(response.data.is_object());
 }

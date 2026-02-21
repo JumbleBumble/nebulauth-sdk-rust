@@ -11,6 +11,9 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 use thiserror::Error;
 use url::Url;
 
+pub mod dashboard;
+pub use dashboard::*;
+
 type HmacSha256 = Hmac<Sha256>;
 const DEFAULT_BASE_URL: &str = "https://api.nebulauth.com/api/v1";
 

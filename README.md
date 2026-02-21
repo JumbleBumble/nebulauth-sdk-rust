@@ -12,7 +12,7 @@ Rust crate for NebulAuth runtime API.
 
 ```toml
 [dependencies]
-nebulauth-sdk = "0.1.0"
+nebulauth-sdk = "0.2.0"
 ```
 
 ## Quick start
@@ -51,6 +51,27 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 cargo test
 ```
 
+## Dashboard API usage
+
+```rust
+use nebulauth_sdk::{
+    DashboardAuth,
+    DashboardRequestOptions,
+    NebulAuthDashboardClient,
+    NebulAuthDashboardClientOptions,
+};
+
+let dashboard = NebulAuthDashboardClient::new(NebulAuthDashboardClientOptions {
+    auth: Some(DashboardAuth::Bearer {
+        bearer_token: "mk_at_...".to_string(),
+    }),
+    ..Default::default()
+})?;
+
+let me = dashboard.me(DashboardRequestOptions::default()).await?;
+let users = dashboard.list_users(DashboardRequestOptions::default()).await?;
+```
+
 ## Live test (optional)
 
 ```bash
@@ -58,6 +79,20 @@ set NEBULAUTH_LIVE_TEST=1
 set NEBULAUTH_BEARER_TOKEN=mk_at_...
 set NEBULAUTH_SIGNING_SECRET=mk_sig_...
 set NEBULAUTH_TEST_KEY=mk_live_...
+set NEBULAUTH_DASHBOARD_BEARER_TOKEN=mk_at_...
 
 cargo test --test live_tests -- --nocapture
 ```
+
+Live test env vars:
+
+- Required to enable live tests:
+    - `NEBULAUTH_LIVE_TEST=1`
+- Required for runtime live tests:
+    - `NEBULAUTH_BEARER_TOKEN`
+    - `NEBULAUTH_TEST_KEY`
+- Required for dashboard live test:
+    - `NEBULAUTH_DASHBOARD_BEARER_TOKEN`
+- Optional:
+    - `NEBULAUTH_SIGNING_SECRET`
+    - `NEBULAUTH_TEST_HWID`

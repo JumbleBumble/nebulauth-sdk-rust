@@ -1,9 +1,9 @@
 [package]
 name = "nebulauth-sdk"
-version = "0.1.1"
+version = "0.2.0"
 edition = "2021"
 authors = ["NebulAuth"]
-description = "Rust SDK crate for NebulAuth runtime API"
+description = "Rust SDK crate for NebulAuth runtime & dashboard API"
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/JumbleBumble/nebulauth-sdk-rust"
